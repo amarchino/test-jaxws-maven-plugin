@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.example</groupId>
+  <artifactId>test-jaxws</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>test-jaxws</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <jaxws-ri.version>2.3.3</jaxws-ri.version>
+    <jaxws.plugin.version>2.3.3</jaxws.plugin.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.sun.xml.ws</groupId>
+      <artifactId>jaxws-ri</artifactId>
+      <version>${jaxws-ri.version}</version>
+      <type>pom</type>
+    </dependency>
+  </dependencies>
+ 
+  <profiles>
+    <profile>
+      <id>generate-adapters</id>
+        <build>
+          <plugins>
+            <plugin>
+              <groupId>com.sun.xml.ws</groupId>
+               <artifactId>jaxws-maven-plugin</artifactId>
+               <version>${jaxws.plugin.version}</version>
+               <executions>
+                 <execution>
+                   <id>generate-resources</id>
+                 <goals>
+                   <goal>wsimport</goal>
+                 </goals>
+                 <configuration>
+                   <destDir>${project.basedir}/src/main/java</destDir>
+                   <bindingFiles>
+                     <bindingFile>${project.basedir}/src/main/resources/wsdl/jaxws-bindings.xml</bindingFile>
+                   </bindingFiles>
+                   <!--verbose>true</verbose-->
+                   <!--vmArgs>
+                     <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                   </vmArgs-->
+                   <wsdlDirectory>${project.basedir}/src/main/resources/wsdl</wsdlDirectory>
+                   <wsdlFiles>
+                     <wsdlFile>RicercaService.wsdl</wsdlFile>
+                   </wsdlFiles>
+                   <wsdlLocation>/wsdl/RicercaService.wsdl</wsdlLocation>
+                   <!--xdebug>true</xdebug-->
+                   <xnocompile>true</xnocompile>
+                 </configuration>
+               </execution>
+             </executions>
+           </plugin>
+         </plugins>
+       </build>
+    </profile>
+  </profiles>
+  
+</project>
+<!--
+
+                   <bindingFiles>
+                     <bindingFile>${project.basedir}/src/main/resources/jaxws-bindings.xml</bindingFile>
+                   </bindingFiles>
+-->
